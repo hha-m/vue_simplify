@@ -1,5 +1,6 @@
 <template>
  <v-app>
+   <router-view></router-view>
    <Footer />
  </v-app>
 </template>
