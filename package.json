@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@okta/okta-vue": "1.0.7",
-    "axios": "0.18.0",
     "core-js": "^3.6.4",
     "vue": "^2.6.11",
     "vuetify": "^2.2.11",
