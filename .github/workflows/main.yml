@@ -1,0 +1,26 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Yarn CI
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: yarn install
+        uses: nuxt/actions-yarn@node-11
+        with:
+          args: "install"
+
+      - name: yarn lint
+        uses: nuxt/actions-yarn@node-11
+        with:
+          args: "lint"
