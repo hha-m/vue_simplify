@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Auth from '@okta/okta-vue'
+import Auth from '@okta/okta-vue';
 
 import Home from './components/Home';
 import Login from './components/Login';
@@ -11,7 +11,7 @@ Vue.use(Auth, {
   client_id: process.env.VUE_APP_OKTA_APP_CLIENT_ID,
   redirect_uri: 'http://localhost:8080/implicit/callback',
   scope: 'openid profile email'
-})
+});
 
 export default new VueRouter({
  mode: 'history',
