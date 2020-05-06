@@ -1,24 +1,44 @@
 <template>
-  <div>
+   <div>
     <v-toolbar dark color="cyan">
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title> TODO LIST </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn @click.prevent="logout"> Logout </v-btn>
     </v-toolbar>
-    <div>
-      <datetime v-model="choose_date" input-id="startDate" placeholder="select date">
-        <v-icon for="startDate" slot="before">today</v-icon>
-        <template slot="button-cancel">
-          Cancel
-        </template>
-        <template slot="button-confirm">
-          Confirm
-        </template>
-      </datetime>
-    </div>
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      bottom
+      temporary
+    >
+      <v-list
+      nav
+      dense
+      >
+        <v-list-item-group
+          v-model="group"
+          active-class="deep-purple--text text--accent-4"
+        >
+          <v-list-item>
+            <v-list-item-title>Foo</v-list-item-title>
+          </v-list-item>
 
-    <v-card class="mx-auto" max-width="500">
+          <v-list-item>
+            <v-list-item-title>Bar</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-title>Fizz</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-title>Buzz</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+     <v-card class="mx-auto" max-width="500">
       <v-list>
         <v-subheader>
           <v-label>Today : {{ today }} </v-label>
@@ -63,8 +83,21 @@
 
         </v-list-item>
       </v-list>
-    </v-card>
-  </div>
+     </v-card>
+   </div>
+  <!-- <div>
+    <div>
+      <datetime v-model="choose_date" input-id="startDate" placeholder="select date">
+        <v-icon for="startDate" slot="before">today</v-icon>
+        <template slot="button-cancel">
+          Cancel
+        </template>
+        <template slot="button-confirm">
+          Confirm
+        </template>
+      </datetime>
+    </div>
+  </div> -->
 </template>
 
 <script>
@@ -73,6 +106,8 @@ import moment from 'moment';
 export default {
   data() {
     return {
+      drawer: false,
+      group: null,
       tasks: [],
       hideCompleted: true,
       newItemText: '',
@@ -80,15 +115,21 @@ export default {
       today: moment().format('YYYY-MM-DD')
     };
   },
+  watch: {
+    group () {
+      this.drawer = false
+    },
+  },
   computed: {
     filteredTasks() {
       return this.hideCompleted ? this.tasks.filter(t => !t.done) : this.tasks
     }
   },
   methods: {
-    // todo: sometimes, logout does not work
     async logout () {
-      await this.$auth.logout();
+      try {
+        await this.$auth.logout();
+      } catch (error) { console.log(error.code); }
       this.$router.push('/')
     },
     // add new task
