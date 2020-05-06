@@ -5,11 +5,11 @@
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
-              <v-toolbar dark color="teal">
+              <v-toolbar dark color="cyan">
                 <v-toolbar-title justify-center>Login</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
-                <v-btn @click.prevent="login" color="primary">Sign in with Okta</v-btn>
+                <v-btn @click.prevent="login" class="pa-3 white--text" color="black">Sign in with Okta</v-btn>
               </v-card-text>
             </v-card>
           </v-flex>
