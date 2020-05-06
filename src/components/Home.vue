@@ -80,7 +80,14 @@
           <v-list-item-content>
             Hide completed tasks
           </v-list-item-content>
-
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-btn icon @click="deleteCompleted">
+                <v-icon v-on="on">mdi-delete</v-icon>
+              </v-btn>
+            </template>
+            <span>Delete Completed Tasks</span>
+          </v-tooltip>
         </v-list-item>
       </v-list>
      </v-card>
@@ -125,6 +132,13 @@ export default {
       return this.hideCompleted ? this.tasks.filter(t => !t.done) : this.tasks
     }
   },
+  // get Json data
+  created() {
+    let data = localStorage.getItem("todos");
+    if (data != null) {
+      this.tasks = JSON.parse(data);
+    }
+  },
   methods: {
     async logout () {
       try {
@@ -139,16 +153,17 @@ export default {
         action: this.newItemText,
         done: false
         });
-      // stored as json data
-      localStorage.setItem('todos', JSON.stringify(this.tasks));
+      this.storeData();
       this.newItemText = '';
-    }
-  },
-  // get Json data
-  created() {
-    let data = localStorage.getItem("todos");
-    if (data != null) {
-      this.tasks = JSON.parse(data);
+    },
+    // stored as json data
+    storeData() {
+      localStorage.setItem('todos', JSON.stringify(this.tasks));
+    },
+    // delete completed tasks
+    deleteCompleted() {
+      this.tasks = this.tasks.filter(t => !t.done);
+      this.storeData();
     }
   }
 }
